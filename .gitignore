@@ -137,3 +137,27 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# =========================
+# PYTHON / AI SERVICE
+# =========================
+
+# Ambiente Virtual
+venv/
+env/
+.venv/
+
+# Bytecode compilado
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Bases de dados locais
+*.sqlite3
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Lixo de Sistema Operativo (Windows/Mac)
+.DS_Store
+Thumbs.db
