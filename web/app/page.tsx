@@ -37,15 +37,22 @@ export default function Home() {
     }
   };
 
-  // 2. Pedir Recomendações ao Python
-  const getRecommendations = async (movieTitle: string) => {
-    setSelectedMovie(movieTitle);
+// 2. Pedir Recomendações ao Python
+  const getRecommendations = async (displayTitle: string, searchTitle: string) => {
+    // Mostramos o título em Português na caixa preta
+    setSelectedMovie(displayTitle); 
     setLoadingRecs(true);
     
     try {
-      const res = await fetch(`http://127.0.0.1:8000/recommend?movie=${encodeURIComponent(movieTitle)}`);
+      // Mas enviamos o título Original (Inglês) para o Python procurar
+      // Usamos 'searchTitle' aqui
+      const res = await fetch(`http://127.0.0.1:8000/recommend?movie=${encodeURIComponent(searchTitle)}`);
       const data = await res.json();
-      setRecommendations(data.recommendations);
+      
+      // Se o Python devolver erro, mostramos uma lista vazia ou mensagem
+      if (data.recommendations) {
+        setRecommendations(data.recommendations);
+      }
     } catch (error) {
       console.error("Erro ao falar com o Python:", error);
     } finally {
@@ -114,7 +121,7 @@ export default function Home() {
           {movies.map((movie) => (
             <Card 
               key={movie.id} 
-              onClick={() => getRecommendations(movie.title)}
+              onClick={() => getRecommendations(movie.title, movie.original_title)}
               className="overflow-hidden hover:scale-105 transition-transform cursor-pointer hover:ring-2 hover:ring-primary group"
             >
               {movie.poster_path ? (
